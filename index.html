@@ -43,8 +43,8 @@
       <div data-key="75" class="key">
         <img src="img/8.png" width="200px" />
       </div>
-      <div data-key="76" class="key">
-        <img src="img/9.png" width="200px" />
+      <div data-key="76" class="key tink">
+        <img src="img/9.png" data-key="76" width="200px" />
       </div>
     </div>
 
@@ -59,6 +59,14 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
+      const x = document.querySelectorAll(".key");
+
+      function playSoundM(e) {
+        console.log("click", e.target.getAttribute("data-key"));
+        e.keyCode = e.target.getAttribute("data-key");
+        playSound(e);
+      }
+
       function playSound(e) {
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
@@ -75,10 +83,12 @@
       }
 
       const keys = Array.from(document.querySelectorAll(".key"));
-      keys.forEach((key) =>
-        key.addEventListener("transitionend", removeTransition)
-      );
+      keys.forEach((key) => {
+        key.addEventListener("transitionend", removeTransition);
+        key.addEventListener("click", playSoundM);
+      });
       window.addEventListener("keydown", playSound);
+      
     </script>
   </body>
 </html>
